@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-firebase-angularfire": {
+      "hosting": {
+        "angularfire": [
+          "angular-firebase-angularfire"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-firebase-angularfire"
+  }
+}
