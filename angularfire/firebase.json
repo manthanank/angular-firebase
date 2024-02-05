@@ -3,7 +3,9 @@
     {
       "target": "angularfire",
       "source": ".",
-      "frameworksBackend": {}
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
     }
   ]
 }
