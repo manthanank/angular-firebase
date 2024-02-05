@@ -1,16 +1,28 @@
 <div>
-    <h1>User List</h1>
-    <ul>
-        <li *ngFor="let user of users">{{ user.firstName }} {{ user.lastName }}</li>
+    <h2>User List</h2>
+  
+    <ul *ngIf="users">
+      <li *ngFor="let user of users">
+        {{ user.firstName }} {{ user.lastName }}
+      </li>
     </ul>
-</div>
-
-<form (ngSubmit)="addUser()">
-    <label for="firstName">First Name:</label>
-    <input type="text" name="firstName" [(ngModel)]="newUser.firstName" required>
-
-    <label for="lastName">Last Name:</label>
-    <input type="text" name="lastName" [(ngModel)]="newUser.lastName" required>
-
-    <button type="submit">Add User</button>
-</form>
+  
+    <div *ngIf="submitted">
+      User added successfully!
+    </div>
+  
+    <form (ngSubmit)="addUser()">
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" [(ngModel)]="User.firstName" name="firstName" required>
+      </div>
+  
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" [(ngModel)]="User.lastName" name="lastName" required>
+      </div>
+  
+      <button type="submit">Add User</button>
+    </form>
+  </div>
+  

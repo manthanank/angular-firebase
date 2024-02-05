@@ -45,6 +45,7 @@ export class AngularFireDatabaseComponent implements OnInit {
       // Set submitted to false after 2 seconds
       setTimeout(() => {
         this.submitted = false;
+        this.retrieveUsers();
       }, 2000);
     });
   }

@@ -21,6 +21,10 @@ export class AngularFirestoreComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+    this.retrieveUsers();
+  }
+
+  retrieveUsers(): void {
     this.dataService.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
@@ -41,6 +45,7 @@ export class AngularFirestoreComponent implements OnInit {
       // Set submitted to false after 2 seconds
       setTimeout(() => {
         this.submitted = false;
+        this.retrieveUsers();
       }, 2000);
     });
   }

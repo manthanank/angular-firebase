@@ -1,57 +1,57 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataService } from './services/data.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgFor } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface User {
-  firstName?: string,
-  lastName?: string
-};
+import { User } from './models/user.model';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, NgFor, FormsModule],
+  imports: [RouterOutlet, HttpClientModule, NgIf, NgFor, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
   users?: User[];
-  newUser: User = {};
+  User: User = new User();
+  submitted = false;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.retrieveUsers();
   }
 
-  loadUsers(){
-    this.dataService.getUsers().subscribe(
-      res => {
-        // console.log(res);
-        this.users = Object.values(res); // Assuming your data is an object with user IDs
-        // console.log(this.users);
-      }
-    );
+  retrieveUsers() {
+    this.dataService.getAll().pipe(
+      map(changes =>
+        Object.entries(changes).map(([key, value]: [string, any]) => ({
+          key: key,
+          ...value
+        }))
+      )
+    ).subscribe(data => {
+      this.users = data;
+      // console.log(this.users);
+    });
   }
 
   addUser(): void {
-    if (this.newUser.firstName && this.newUser.lastName) {
-      this.dataService.addUser(this.newUser).subscribe(
-        () => {
-          console.log('User added successfully');
-          this.loadUsers(); // Refresh the user list
-          this.newUser = {}; // Clear the form
-        },
-        error => {
-          console.error('Error adding user:', error);
-        }
-      );
-    } else {
-      console.warn('Please enter both first name and last name.');
-    }
+    this.dataService.addUser(this.User).subscribe(
+      () => {
+        console.log('Created new item successfully!');
+        this.submitted = true;
+
+        // Set submitted to false after 2 seconds
+        setTimeout(() => {
+          this.submitted = false;
+          this.retrieveUsers();
+        }, 2000);
+      }
+    );
   }
 }

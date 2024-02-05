@@ -1,12 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-interface User {
-  firstName?: string,
-  lastName?: string,
-  key?: string; // Add a key property for identifying users
-};
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +13,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   // Example GET request
-  getUsers(): Observable<any> {
+  getAll(): Observable<User> {
     return this.http.get(`${this.apiUrl}/users.json`);
   }
 
