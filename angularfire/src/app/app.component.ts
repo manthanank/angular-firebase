@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { DataService } from './services/data.service';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-interface Item {
+interface User {
   id?: string,
   firstName?: string,
   lastName?: string
@@ -18,19 +18,19 @@ interface Item {
 })
 export class AppComponent {
 
-  items?: Item[];
+  users?: User[];
   
-  constructor(private itemService: DataService) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.itemService.getAll().snapshotChanges().pipe(
+    this.dataService.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
           ({ id: c.payload.doc.id, ...c.payload.doc.data() })
         )
       )
     ).subscribe(data => {
-      this.items = data;
+      this.users = data;
       // console.log(this.items);
     });
   }

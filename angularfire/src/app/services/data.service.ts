@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
-interface Item {
+interface User {
   fisrtName?: string,
   lastName?: string
 };
@@ -11,27 +11,27 @@ interface Item {
 })
 export class DataService {
 
-  private dbPath = '/items';
+  private dbPath = '/users';
 
-  itemsRef: AngularFirestoreCollection<Item>;
+  usersRef: AngularFirestoreCollection<User>;
 
   constructor(private db: AngularFirestore) {
-    this.itemsRef = db.collection(this.dbPath);
+    this.usersRef = db.collection(this.dbPath);
   }
 
-  getAll(): AngularFirestoreCollection<Item> {
-    return this.itemsRef;
+  getAll(): AngularFirestoreCollection<User> {
+    return this.usersRef;
   }
 
-  create(item: Item): any {
-    return this.itemsRef.add({ ...item });
+  create(user: User): any {
+    return this.usersRef.add({ ...user });
   }
 
   update(id: string, data: any): Promise<void> {
-    return this.itemsRef.doc(id).update(data);
+    return this.usersRef.doc(id).update(data);
   }
 
   delete(id: string): Promise<void> {
-    return this.itemsRef.doc(id).delete();
+    return this.usersRef.doc(id).delete();
   }
 }
